@@ -1,0 +1,242 @@
+<!doctype html>
+{% load static %}
+{% load custom_filters %}
+<html class="no-js" lang="zxx">
+
+<!--HTML Head Links-->
+{% include 'store/head.html' %}
+<body>
+
+<!--Preloader-->
+{% include 'store/preloader.html' %}
+
+<!--Nav Bar-->
+{% include 'store/navbar.html' %}
+
+<main>
+
+<div class="hero-area section-bg2 mb-5">
+<div class="container">
+<div class="row">
+<div class="col-xl-12">
+<div class="slider-area">
+<div class="slider-height2 slider-bg4 d-flex align-items-center justify-content-center">
+<div class="hero-caption hero-caption2">
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb justify-content-center">
+<li class="breadcrumb-item"><a href="index-2.html">Home</a></li>
+<li class="breadcrumb-item"><a href="#">Checkout</a></li>
+</ol>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="container mb-5">
+
+    <div class="row">
+		<div class="col-lg-6">
+			<div class="box-element" id="form-wrapper">
+				<form id="form">
+					{% csrf_token %}
+					<div id="user-info">
+						<div class="form-field">
+							<input required class="form-control" type="text" name="name" placeholder="Name..">
+						</div>
+						<div class="form-field">
+							<input required class="form-control" type="text" name="phone" placeholder="Phone..">
+						</div>
+						<div class="form-field">
+							<input required class="form-control" id="email" type="email" name="email" placeholder="Email..">
+						</div>
+					</div>
+
+					<div id="shipping-info"><br>
+
+						<h5>Shipping Information:</h5>
+						<hr style="border-color: black; margin-top: 1%;">
+						<div class="form-field">
+							<input class="form-control" type="text" name="address" placeholder="Any Market or Bus Stop..">
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="town" placeholder="Town..">
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="lga" placeholder="LGA..">
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="state" placeholder="State..">
+						</div>
+					</div>
+
+					<hr style="border-color: black; margin-top: 5%;">
+					<input id="form-button" class="btn btn-success btn-block col-md-12"  style="border-radius: 0.5em;" type="submit" value="Continue">
+				</form>
+			</div>
+
+			<br>
+			<div class="box-element hidden" id="payment-info">
+				<button type="button" id="paystack_btn" class="btn btn-primary col-md-12"  style="border-radius: 0.5em;"> Pay Now</button>
+			</div>
+
+		</div>
+
+		<div class="col-lg-6">
+			<div class="box-element">
+				<a  class="btn btn-outline-dark"  style="border-radius: 0.5em;" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
+				<hr style="border-color: black; margin-top: 3%;">
+				<h4>Order Summary</h4>
+				<hr style="border-color: black; margin-top: 3%; margin-bottom: 2%;">
+
+				{% for item in items %}
+				<div class="cart-row">
+					<div style="flex:1"><img class="row-image" src="{{item.product.imageURL}}"></div>
+					<div style="flex:1.5;"><p style="font-size: 0.85em;">{{item.product.name}}</p></div>
+					<div style="flex:2;"><p style="font-size: 0.85em;">Price:<br> ₦{{item.product.price|format_price}}</p></div>
+					<div style="flex:1.5;"><p style="font-size: 0.85em;">Shipping:<br> ₦{{item.product.shipping|format_price}}</p></div>
+					<div style="flex:1"><p style="font-size: 0.85em;">Quantity:<br> {{item.quantity}}</p></div>
+				</div><br>
+				{% endfor %}
+
+				<h5>Items:   {{order.get_cart_items}}</h5>
+				<h5>Total:   ₦{{order.get_cart_total|format_price}}</h5>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+</main>
+
+<!--Footer-->
+{% include 'store/footer.html' %}
+
+<button id="myBtn" title="Go to top">Top</button>
+
+<!--Bottom Scripts-->
+<script nonce="{{ request.csp_nonce }}">
+    var paystackBtn = document.getElementById('paystack_btn');
+    paystackBtn.addEventListener('click', function(e) {
+        payWithPaystack();
+    });
+</script>
+<script src="https://js.paystack.co/v1/inline.js" nonce="{{ request.csp_nonce }}"></script>
+<script nonce="{{ request.csp_nonce }}">
+  var total = '{{order.get_cart_total}}';
+  function getEmail() {
+      email_address = document.getElementById('email').value.trim();
+    }
+
+  // Function to initiate payment
+    function payWithPaystack() {
+      // Ensure the email is retrieved before initiating payment
+      getEmail();
+
+      var handler = PaystackPop.setup({
+        key: '{{ paystack_public_key }}', // Replace with your public key
+        email: email_address,
+        amount: total * 100,
+        currency: 'NGN',
+        // ref: 'YOUR_REFERENCE', // Replace with a reference you generated
+        callback: function(response) {
+          var reference = response.reference;
+          submitFormData();
+          // Make an AJAX call to your server with the reference to verify the transaction
+        },
+        onClose: function() {
+          alert('Transaction was not completed, window closed.');
+        },
+      });
+
+      handler.openIframe();
+    }
+
+</script>
+
+
+<script nonce="{{ request.csp_nonce }}">
+	var shipping = '{{order.shipping}}'
+	var total = '{{order.get_cart_total}}'
+
+	if(shipping == 'False'){
+		document.getElementById('shipping-info').innerHTML = ''
+	}
+
+	var form = document.getElementById('form')
+
+	csrftoken = form.getElementsByTagName("input")[0].value
+
+	form.addEventListener('submit', function(e){
+		e.preventDefault()
+		console.log('Form Submitted....')
+		document.getElementById('form-button').classList.add('hidden')
+		document.getElementById('payment-info').classList.remove('hidden')
+	})
+
+	function submitFormData(){
+		console.log('Payment button clicked')
+
+		var userFormData = {
+			'name' : null,
+			'phone' : null,
+			'email' : null,
+			'total' : total,
+		}
+
+		var shippingInfo = {
+			'address' : null,
+			'town' : null,
+			'lga' : null,
+			'state' : null,
+		}
+
+		if (shipping != 'False'){
+			shippingInfo.address = form.address.value
+			shippingInfo.phone = form.phone.value
+			shippingInfo.email = form.email.value
+			shippingInfo.town = form.town.value
+			shippingInfo.lga = form.lga.value
+			shippingInfo.state = form.state.value
+		}
+
+		if (user == 'AnonymousUser'){
+			userFormData.name = form.name.value
+			userFormData.phone = form.phone.value
+			userFormData.email = form.email.value
+		}
+
+
+		var url = '/process_order/'
+		fetch(url, {
+			method:'POST',
+			headers:{
+				'Content-Type':'application/json',
+				'X-CSRFToken':csrftoken,
+			},
+			body:JSON.stringify({'form':userFormData, 'shipping':shippingInfo}),
+		})
+
+		.then((response) => response.json())
+		.then((data) => {
+			console.log('Success:', data);
+			alert('Transaction completed');
+
+			cart = {}
+			document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+
+			window.location.href = "{% url 'shop' %}"
+		})
+
+	}
+
+
+</script>
+{% include 'store/bottom_scripts.html' %}
+
+</body>
+
+</html>

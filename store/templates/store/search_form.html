@@ -1,0 +1,13 @@
+{% load static %}
+<div class="container">
+    <form method="get" action="{% url 'shop' %}">
+        <div class="row">
+            <div class="col-md-9" style="padding-top: 4px;">
+                {{ form }}
+            </div>
+            <div class="col-md-3">
+                <button type="submit" style="border-radius: 0.5em; width: 100%;" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+</div>

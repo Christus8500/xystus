@@ -1,0 +1,108 @@
+<!doctype html>
+{% load static %}
+{% load custom_filters %}
+<html class="no-js" lang="zxx">
+
+<!--HTML Head Links-->
+{% include 'store/head.html' %}
+<body>
+
+<!--Preloader-->
+{% include 'store/preloader.html' %}
+
+<!--Nav Bar-->
+{% include 'store/navbar.html' %}
+
+<main>
+
+<div class="hero-area section-bg2 mb-5">
+<div class="container">
+<div class="row">
+<div class="col-xl-12">
+<div class="slider-area">
+<div class="slider-height2 slider-bg4 d-flex align-items-center justify-content-center">
+<div class="hero-caption hero-caption2">
+<h2>Orders</h2>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb justify-content-center">
+<li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="#">Orders</a></li>
+</ol>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="container mb-5">
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box-element text-center" style="padding: 2em;">
+
+
+            <div class="row clearfix">
+                {% for order in orders %}
+                <div class="col-md-4" style="margin-bottom: 1.5em;">
+                    <div class="card box-element" style="padding: 2em;">
+                        <div class="body">
+                            <!-- orders.html -->
+                            <h2>Order {{ order.id }}</h2>
+                            <p>Customer: {{ order.customer.name }}</p>
+                            <p>Complete?? {{ order.complete }}</p>
+
+                            <!-- Order Items -->
+                            <div class="card box-element" style="margin-bottom: 1.5em;">
+                                <h3>Order Items:</h3>
+
+                            <ul>
+                                {% for item in order.orderitem_set.all %}
+                                    <li style="margin-bottom: 0.8em;">{{ item.product.name }} >> Quantity: {{ item.quantity }} >> Total: ₦{{ item.get_total|format_price }}</li>
+                                {% endfor %}
+                            </ul>
+                            </div>
+
+
+                            <!-- Shipping Address -->
+                            {% for shippingaddress in order.shippingaddress_set.all %}
+                                <h3>Shipping Address:</h3>
+                                <p>Phone: {{ shippingaddress.phone }}</p>
+                                <p>Email: {{ shippingaddress.email }}</p>
+                                <p>Address: {{ shippingaddress.address }}, {{ shippingaddress.town }}, {{ shippingaddress.lga }} LGA, {{ shippingaddress.state }} State.</p>
+                                <br><br>
+                                <strong>Date Ordered: {{ shippingaddress.date_added }}</strong>
+
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</div>
+
+
+
+
+</main>
+
+<!--Footer-->
+{% include 'store/footer.html' %}
+
+<button id="myBtn" title="Go to top">Top</button>
+
+
+<!--Bottom Scripts-->
+{% include 'store/bottom_scripts.html' %}
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+<!doctype html>
+{% load static %}
+{% load custom_filters %}
+<html class="no-js" lang="zxx">
+
+<!--HTML Head Links-->
+{% include 'store/head.html' %}
+<body>
+
+<!--Preloader-->
+{% include 'store/preloader.html' %}
+
+
+<!--Nav Bar-->
+{% include 'store/navbar.html' %}
+
+<main>
+
+<div style="margin-top: 5em;">
+
+</div>
+
+<!--Search Form-->
+{% include 'store/search_form.html' %}
+
+{% if results %}
+<div class="latest-items section-padding fix text-center" style="padding-bottom: 0px; margin-top: -3.5em;">
+	<h3 style="margin-bottom: 20px;">Search Results....</h3>
+
+	<section>
+		<div class="container mb-5">
+			<div class="row">
+				{% for product in results %}
+				<div class="col-lg-3 col-sm-6 mb-5 mb-xs-5">
+					<img class="thumbnail" src="{{product.imageURL}}">
+					<div class="box-element product">
+						<span><strong>{{ product.name }}</strong></span>
+						<hr style="border-color: black; margin-bottom: 5px;">
+						<h5 style="font-size: 13px; line-height: 90%;"><strong>{{ product.description }}</strong></h5><br>
+						<div class="h-100 d-flex align-items-center justify-content-center">
+							<div style="margin-right: 0.3em;">
+                                <strong style="color: black; font-size: 0.9em"> ₦{{ product.price|format_price }} <del style="color: grey"> ₦{{ product.original_price|format_price }}</del></strong><br>
+                                <strong style="font-size: 0.8em;">Shipping: <span style="color: grey">₦{{ product.shipping|format_price }}</span></strong>
+                            </div>
+
+                            <button data-product={{product.id}} data-action="add" style="border-radius: 0.5em; height: 40px; padding: 0px 10px 0px 20px;" class="btn btn-outline-secondary add-btn update-cart"><i class="ti-shopping-cart">+</i></button>
+                        </div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+</div>
+
+{% endif %}
+
+
+<section>
+    <div class="container mb-5" style="margin-top: 1.5em;">
+
+        <div class="row text-center">
+        	<strong style="font-size: 1.2em; margin-bottom: 1.5em;">Shop By Categories &#8594; <a href="{% url 'categories' %}" style="color: grey; text-decoration: underline;"> Shop Now &#8594;</a></strong>
+			{% for product in products %}
+			<div class="col-lg-3 col-sm-6 mb-4 mb-xs-2">
+				<img class="thumbnail" src="{{product.imageURL}}" alt="{{product.name}}">
+				<div class="box-element product">
+					<span><strong>{{ product.name }}</strong></span>
+					<hr style="border-color: black; margin-bottom: 5px;">
+					<div class="description_box">
+						<h5 style="font-size: 12.3px; color: black; line-height: 14px;"><span>{{ product.description }}</span></h5>
+					</div>
+					<div class="h-100 d-flex align-items-center justify-content-center">
+						<div style="margin-right: 0.3em;">
+							<strong style="color: black; font-size: 0.8em"> ₦{{ product.price|format_price }} <del style="color: grey"> ₦{{ product.original_price|format_price }}</del></strong><br>
+							<strong style="font-size: 0.8em;">Shipping: <span style="color: grey">₦{{ product.shipping|format_price }}</span></strong>
+						</div>
+
+						<button data-product={{product.id}} data-action="add" style="border-radius: 0.5em; height: 40px; padding: 0px 10px 0px 20px;" class="btn btn-outline-secondary add-btn update-cart"><i class="ti-shopping-cart">+</i></button>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+    </div>
+</section>
+
+
+</main>
+
+<!--Footer-->
+{% include 'store/footer.html' %}
+
+<button id="myBtn" title="Go to top">Top</button>
+
+
+<!--Bottom Scripts-->
+{% include 'store/bottom_scripts.html' %}
+</body>
+
+</html>

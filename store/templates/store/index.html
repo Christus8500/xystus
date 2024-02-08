@@ -1,0 +1,342 @@
+<!doctype html>
+{% load static %}
+{% load custom_filters %}
+<html class="no-js" lang="zxx">
+
+<!--HTML Head Links-->
+{% include 'store/head.html' %}
+
+<script nonce="{{ request.csp_nonce }}">
+    document.addEventListener('DOMContentLoaded', function () {
+        // Check if the alert should be shown
+        var showAlert = {{ show_alert|lower }};  // Convert Python boolean to JavaScript boolean
+
+        // Show the alert if necessary
+        if (showAlert) {
+            alert("Switch to desktop view for the best experience");
+        }
+
+        // Set up an event listener to clear the session variable on unload
+        window.addEventListener('beforeunload', function () {
+            // Use an asynchronous request to clear the session variable on the server side
+            fetch('/clear-alert-session/', { method: 'POST', credentials: 'same-origin' });
+        });
+    });
+</script>
+
+<body>
+
+<!--Preloader-->
+{% include 'store/preloader.html' %}
+
+
+<!--Nav Bar-->
+{% include 'store/navbar.html' %}
+
+
+<main>
+
+<section class="items-product1 pt-30 text-center" style="margin-top: 80px;">
+    <div class="container">
+        <div class="row">
+            <h2 style="margin-bottom: 20px;">Some Of Our Product Types</h2>
+            {% for product_type in product_types %}
+            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6">
+                <div class="single-items mb-20">
+                    <div class="items-img">
+                        <img style="height: 9em;" src="{{ product_type.imageURL }}" alt>
+                    </div>
+                    <div class="items-details" style="margin-left: -1.5em; line-height: 0.8em;">
+                        <h4><a href="#" style="text-shadow: 0 0 2px #FF0000;">{{ product_type.name }}</a></h4>
+                        <a href="{% url 'shop' %}" class="browse-btn" style="text-shadow: 0 0 3px #FF0000;"><b style="color: white;">Shop Now</b></a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <strong style="font-size: 1.2em;">Shop By Categories &#8594; <a href="{% url 'categories' %}" style="color: grey; text-decoration: underline;"> Shop Now &#8594;</a></strong>
+    </div>
+</section>
+
+
+<div class="latest-items section-padding fix text-center" style="margin-top: 80px; padding-top: 50px; padding-bottom: 0px; background-color: #F6F6F6;">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <div class="nav-button">
+                    <h2>Peek of Our Products</h2>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 d-flex justify-content-end">
+                <div class="container" style="display: flex; flex-direction: column; align-items: center;">
+                    <nav aria-label="Page navigation example" style="margin-bottom: 0.5em;">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                {% if product_page.has_previous %}
+                                  <a class="page-link" href="{% url 'index' %}?page={{ product_page.previous_page_number }}#product-section" aria-label="Previous">
+                                      <span aria-hidden="true"  style="color: red;">&laquo;</span>
+                                  </a>
+                                {% endif %}
+                            </li>
+                            {% for num_page in product_page.paginator.page_range %}
+                            {% if product_page.number == num_page %}
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="{% url 'index' %}?page={{ num_page }}">{{ num_page }}</a>
+                            </li>
+                            {% else %}
+                            <li class="page-item" aria-current="page">
+                                <a class="page-link" style="color: red;" href="{% url 'index' %}?page={{ num_page }}#product-section">{{ num_page }}</a>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                            <li class="page-item">
+                                {% if product_page.has_next %}
+                                  <a class="page-link" href="{% url 'index' %}?page={{ product_page.next_page_number }}#product-section" aria-label="Next">
+                                      <span aria-hidden="true" style="color: red;">&raquo;</span>
+                                  </a>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="product-section" style="margin-top: 1em;">
+        <div class="container mb-5">
+            <div class="row ">
+                {% for product in product_page.object_list %}
+                <div class="col-lg-3 col-sm-6 mb-5 mb-xs-5">
+                    <img class="thumbnail" src="{{product.imageURL}}">
+                    <div class="box-element product">
+                        <span><strong>{{ product.name }}</strong></span>
+                        <hr style="border-color: black; margin-bottom: 5px;">
+                        <div class="description_box">
+                            <h5 style="font-size: 13px; color: black; line-height: 14px;"><span>{{ product.description }}</span></h5>
+                        </div>
+                        <div class="h-100 d-flex align-items-center justify-content-center">
+                            <div style="margin-right: 0.3em;">
+                                <strong style="color: black; font-size: 0.8em"> ₦{{ product.price|format_price }} <del style="color: grey"> ₦{{ product.original_price|format_price }}</del></strong><br>
+                                <strong style="font-size: 0.8em;">Shipping: <span style="color: grey">₦{{ product.shipping|format_price }}</span></strong>
+                            </div>
+
+                            <button data-product={{product.id}} data-action="add" style="border-radius: 0.5em; height: 40px; padding: 0px 10px 0px 20px;" class="btn btn-outline-secondary add-btn update-cart"><i class="ti-shopping-cart">+</i></button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <a class="btn" style="margin-bottom: 1em; border-radius: 0.5em;" href="{% url 'shop' %}"> Browse More &#8594;</a>
+        </div>
+    </section>
+
+</div>
+
+
+
+<!--<div class="testimonial-area testimonial-padding">-->
+<!--<div class="container">-->
+<!--<div class="row justify-content-center">-->
+<!--<div class="col-xl-10 col-lg-10 col-md-11">-->
+<!--<div class="h1-testimonial-active">-->
+
+<!--<div class="single-testimonial text-center">-->
+<!--<div class="testimonial-caption ">-->
+<!--<div class="testimonial-top-cap">-->
+<!--<h2>Customer Testimonial</h2>-->
+<!--<p>Everybody is different, which is why we offer styles for every body. Laborum fuga incidunt laboriosam voluptas iure, delectus dignissimos facilis neque nulla earum.</p>-->
+<!--</div>-->
+
+<!--<div class="testimonial-founder d-flex align-items-center justify-content-center">-->
+<!--<div class="founder-img">-->
+<!--<img src="{% static 'assets/img/gallery/founder-img.png' %}" alt>-->
+<!--</div>-->
+<!--<div class="founder-text">-->
+<!--<span>Petey Cruiser</span>-->
+<!--<p>Designer at Colorlib</p>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class="single-testimonial text-center">-->
+<!--<div class="testimonial-caption ">-->
+<!--<div class="testimonial-top-cap">-->
+<!--<h2>Customer Testimonial</h2>-->
+<!--<p>Everybody is different, which is why we offer styles for every body. Laborum fuga incidunt laboriosam voluptas iure, delectus dignissimos facilis neque nulla earum.</p>-->
+<!--</div>-->
+
+<!--<div class="testimonial-founder d-flex align-items-center justify-content-center">-->
+<!--<div class="founder-img">-->
+<!--<img src="{% static 'assets/img/gallery/founder-img.png' %}" alt>-->
+<!--</div>-->
+<!--<div class="founder-text">-->
+<!--<span>Petey Cruiser</span>-->
+<!--<p>Designer at Colorlib</p>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+
+<section class="latest-items section-padding fix" style="margin-top: 0px;">
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="section-tittle text-center mb-40">
+                <h2>Our Cheapest Products</h2>
+                <strong style="font-size: 1em;">Shop By Categories &#8594; <a href="{% url 'categories' %}" style="color: grey; text-decoration: underline;"> Shop Now &#8594;</a></strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="latest-items-active">
+            {% for cheap in cheapest %}
+            <div class="properties pb-30">
+                <div class="properties-card">
+                    <div class="properties-img" style="height: 180px;">
+                        <a><img src="{{cheap.imageURL}}" height="100%" width="100%" alt></a>
+                        <div class="socal_icon">
+                            <a style="border-radius: 0.5em;" href="#" data-product={{cheap.id}} data-action="add" class="update-cart"><i class="ti-shopping-cart"></i></a>
+<!--                            <a href="#"><i class="ti-heart"></i></a>-->
+                        </div>
+                    </div>
+                    <div class="properties-caption properties-caption2">
+                        <h3><a>{{ cheap.name }}</a></h3>
+                        <div class="properties-footer">
+                            <div class="price text-dark">
+                                <span> ₦{{ cheap.price|format_price }} <span> ₦{{ cheap.original_price|format_price }}</span></span><br>
+                                <span>Shipping: ₦{{ cheap.shipping|format_price }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+        <a class="btn" style="float: right; margin-bottom: 50px; border-radius: 0.5em;" href="{% url 'shop' %}"> Browse More &#8594;</a>
+    </div>
+
+</section>
+
+
+<div class="latest-items section-padding fix text-center" style="padding-top: 50px; margin-bottom: 50px; padding-bottom: 0px; background-color: #F6F6F6;">
+
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-xl-12">
+                <div class="nav-button">
+                    <h2>Latest Arrivals</h2><hr>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section>
+        <div class="container mb-5">
+            <div class="row">
+                {% for latest_product in latest_products %}
+                <div class="col-lg-3 col-sm-6 mb-5 mb-xs-5">
+                    <img class="thumbnail" src="{{ latest_product.imageURL }}">
+                    <div class="box-element product">
+                        <span><strong>{{ latest_product.name }}</strong></span>
+                        <hr style="border-color: black; margin-bottom: 5px;">
+                        <div class="description_box">
+                            <h5 style="font-size: 12.3px; color: black; line-height: 14px;"><span>{{ latest_product.description }}</span></h5>
+                        </div>
+                        <div class="h-100 d-flex align-items-center justify-content-center">
+                            <div style="margin-right: 0.3em;">
+                                <strong style="color: black; font-size: 0.8em"> ₦{{ latest_product.price|format_price }} <del style="color: grey"> ₦{{ latest_product.original_price|format_price }}</del></strong><br>
+                                <strong style="font-size: 0.8em;">Shipping: <span style="color: grey">₦{{ latest_product.shipping|format_price }}</span></strong>
+                            </div>
+
+                            <button data-product={{latest_product.id}} data-action="add" style="border-radius: 0.5em; height: 40px; padding: 0px 10px 0px 20px;" class="btn btn-outline-secondary add-btn update-cart"><i class="ti-shopping-cart">+</i></button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="container" style="display: flex; flex-direction: column; align-items: center;">
+                <a class="btn" style="margin-bottom: 1em; border-radius: 0.5em;" href="{% url 'shop' %}"> Browse More &#8594;</a>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+
+<div class="categories-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-cat mb-50 wow fadeInUp text-center" data-wow-duration="1s" data-wow-delay=".2s">
+                    <div class="cat-icon">
+                        <img src="{% static 'assets/img/icon/services1.svg' %}" alt>
+                    </div>
+                    <div class="cat-cap">
+                        <h5>Fast Delivery</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-cat mb-50 wow fadeInUp text-center" data-wow-duration="1s" data-wow-delay=".2s">
+                    <div class="cat-icon">
+                        <img src="{% static 'assets/img/icon/services2.svg' %}" alt>
+                    </div>
+                    <div class="cat-cap">
+                        <h5>Secure Payment</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-cat mb-50 wow fadeInUp text-center" data-wow-duration="1s" data-wow-delay=".4s">
+                    <div class="cat-icon">
+                        <img src="{% static 'assets/img/icon/services3.svg' %}" alt>
+                    </div>
+                    <div class="cat-cap">
+                        <h5>Money Back Guarantee</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-cat mb-50 wow fadeInUp text-center" data-wow-duration="1s" data-wow-delay=".5s">
+                    <div class="cat-icon">
+                        <img src="{% static 'assets/img/icon/services4.svg' %}" alt>
+                    </div>
+                    <div class="cat-cap">
+                        <h5>Online Support</h5>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</main>
+
+<!--Footer-->
+{% include 'store/footer.html' %}
+
+<button id="myBtn" title="Go to top">Top</button>
+
+
+<!--Bottom Scripts-->
+{% include 'store/bottom_scripts.html' %}
+
+</body>
+
+</html>

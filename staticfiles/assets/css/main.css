@@ -1,0 +1,212 @@
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+body {
+    padding-top: 90px; /* Adjust this value to match the height of your fixed navbar */
+}
+
+.fixed-top {
+    background-color: #fff; /* Add your desired background color */
+    transition: 0.3s; /* Add a smooth transition effect */
+    z-index: 1000; /* Set a high z-index to make sure it stays on top of other elements */
+}
+
+.fixed {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a shadow for a subtle effect */
+}
+
+.notification-count {
+    position: absolute;
+    top: -12%; /* Adjust this value to position it at the desired height */
+    right: -80%; /* Adjust this value to position it at the desired right offset */
+    background-color: red; /* Background color for the notification count */
+    color: white; /* Text color for the count */
+    border-radius: 50%; /* Make it a circular shape */
+    padding: 2% 20%; /* Adjust padding as needed */
+    font-size: 10px; /* Adjust font size as needed */
+    font-family: monospace;
+}
+
+
+h1,h2,h3,h4,h5,h6{
+	color:hsl(0, 0%, 30%);
+}
+
+.box-element{
+	box-shadow:hsl(0, 0%, 80%) 0 0 16px;
+	background-color: #fff;
+	border-radius: 4px;
+	padding: 10px;
+}
+
+.bottom-shadow-box{
+    box-shadow: 0px 3px 4px -1px grey;
+}
+
+.thumbnail{
+	width: 100%;
+	background-color: #fff;
+	height: 160px;
+	padding-right: 6%;
+	padding-left: 6%;
+	padding-top: 3%;
+	padding-bottom: 2%;
+	-webkit-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+    -moz-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+    box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+}
+
+.description_box{
+    height: 5em;
+    width: 100%;
+}
+
+.product{
+	border-radius: 0 0 4px 4px;
+}
+
+.bg-dark{
+	background-color: #4f868c!important;
+}
+
+#cart-icon{
+	width:25px;
+	display: inline-block;
+	margin-left: 15px;
+}
+
+.col-lg-4, .col-lg-6, .col-lg-8, .col-lg-12{
+	margin-top: 10px;
+}
+
+.btn{
+	border-radius: 0;
+}
+
+.row-image{
+	width: 4em;
+	height: 50px;
+}
+
+.form-field{
+	width:250px;
+	display: inline-block;
+	padding: 5px;
+}
+
+.cart-row{
+	display: flex;
+    align-items: flex-stretch;
+    padding-bottom: 10px;
+    padding-top: 0px;
+    padding-left: 0px;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    border-bottom: 1px solid #ececec;
+
+}
+
+.quantity{
+	display: inline-block;
+	font-weight: 700;
+	padding-right:10px;
+}
+
+.chg-quantity{
+	width: 8px;
+	cursor: pointer;
+	display: block;
+	margin-top: 5px;
+	transition:.1s;
+}
+
+.chg-quantity:hover{
+	opacity: .6;
+}
+
+
+.hidden{
+	display: none!important;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: red;
+    border-color: red;
+    color: white; /* Change text color if needed */
+}
+
+
+.spinner{
+	position: absolute;
+	left: 46%;
+	top: 40%;
+	transform: translate(-50%, -50%);
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	border: 8px solid lightgray;
+	border-top:  8px solid red;
+	border-bottom:  8px solid red;
+	animation: anime 1.4s ease infinite;
+}
+
+@keyframes anime{
+	from{ transform: rotate(0deg); }
+	to{ transform: rotate(360deg); }
+}
+
+.spinner::before{
+	position: absolute;
+	content: "";
+	width: 200%;
+	height: 200%;
+	left: 50%;
+	top: 50%;
+	border-radius: inherit;
+	opacity: 0.6;
+	transform: translate(-50%, -50%);
+	border: 10px solid lightgray ;
+	border-left: 10px solid red ;
+	border-right: 10px solid red ;
+}
+
+.spinner::after{
+	position: absolute;
+	content: "";
+	width: 300%;
+	height: 300%;
+	left: 50%;
+	top: 50%;
+	border-radius: inherit;
+	opacity: 0.6;
+	transform: translate(-50%, -50%);
+	border: 12px solid lightgray ;
+	border-top: 12px solid red ;
+	border-bottom: 12px solid red ;
+}
+
+/* Back To Top */
+#myBtn {
+  position: fixed; /* Fixed/sticky position */
+  bottom: 20px; /* Place the button at the bottom of the page */
+  right: 30px; /* Place the button 30px from the right */
+  z-index: 99; /* Make sure it does not overlap */
+  border: none; /* Remove borders */
+  outline: none; /* Remove outline */
+  background-color: red; /* Set a background color */
+  color: white; /* Text color */
+  cursor: pointer; /* Add a mouse pointer on hover */
+  padding: 10px; /* Some padding */
+  border-radius: 10px; /* Rounded corners */
+  font-size: 13px; /* Increase font size */
+  font-weight: bold;
+}
+
+#myBtn:hover {
+  background-color: darkred;
+}

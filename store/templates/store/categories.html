@@ -1,0 +1,110 @@
+<!doctype html>
+{% load static %}
+{% load custom_filters %}
+<!--suppress ALL -->
+<html class="no-js" lang="zxx" xmlns="http://www.w3.org/1999/html">
+
+<!--HTML Head Links-->
+{% include 'store/head.html' %}
+<body>
+
+<!--Preloader-->
+{% include 'store/preloader.html' %}
+
+<!--Nav Bar-->
+{% include 'store/navbar.html' %}
+
+<main>
+
+<div class="hero-area section-bg2">
+<div class="container">
+<div class="row">
+<div class="col-xl-12">
+<div class="slider-area">
+<div class="slider-height2 slider-bg4 d-flex align-items-center justify-content-center">
+<div class="hero-caption hero-caption2">
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb justify-content-center">
+<li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="#">Category</a></li>
+</ol>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="listing-area pt-50 pb-50">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-xl-3 col-lg-4 col-md-4 text-center">
+                <div class="category-listing mb-50 box-element" style="padding: 1em;">
+                    <div class="single-listing">
+                        <div class="select-Categories pb-30">
+
+                            <div class="card box-element">
+                                <h5 style="font-weight: bold; font-size: 13px; line-height: 14px;">**To see the whole product, clear the input fields and hit search</h5>
+                            </div>
+                            <br>
+
+                            <form method="get">
+                                {{ my_filter.form.as_p }}
+                                <button class="btn btn-primary col-md-12" style="border-radius: 0.5em; margin-top: 2em;" type="submit">Search</button>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-9 col-lg-8 col-md-8">
+                <div class="latest-items latest-items2">
+                    <div class="row">
+                        {% for product in products %}
+                        <div class="col-lg-4 col-sm-6 mb-4 mb-xs-2">
+                            <img class="thumbnail" src="{{product.imageURL}}" alt="{{product.name}}">
+                            <div class="box-element product">
+                                <span><strong>{{ product.name }}</strong></span>
+                                <hr style="border-color: black; margin-bottom: 5px;">
+                                <div class="description_box">
+                                    <h5 style="font-size: 12.3px; color: black; line-height: 14px;"><span>{{ product.description }}</span></h5>
+                                </div>
+                                <hr style="border-color: none; margin-bottom: 5px; margin-top: 5px;">
+                                <div class="h-100 d-flex align-items-center justify-content-center">
+                                    <div style="margin-right: 0.3em;">
+                                        <strong style="color: black; font-size: 0.8em"> ₦{{ product.price|format_price }} <del style="color: grey"> ₦{{ product.original_price|format_price }}</del></strong><br>
+                                        <strong style="font-size: 0.8em;">Shipping: <span style="color: grey">₦{{ product.shipping|format_price }}</span></strong>
+                                    </div>
+
+                                    <button data-product={{product.id}} data-action="add" style="border-radius: 0.5em; height: 40px; padding: 0px 10px 0px 20px;" class="btn btn-outline-secondary add-btn update-cart"><i class="ti-shopping-cart">+</i></button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</main>
+
+<!--Footer-->
+{% include 'store/footer.html' %}
+
+<button id="myBtn" title="Go to top">Top</button>
+
+<!--Bottom Scripts-->
+
+{% include 'store/bottom_scripts.html' %}
+</body>
+
+</html>

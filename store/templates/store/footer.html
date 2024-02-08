@@ -1,0 +1,58 @@
+{% load static %}
+<footer>
+<div class="footer-wrapper gray-bg">
+<div class="footer-area footer-padding">
+
+<section class="subscribe-area">
+<div class="container">
+<div class="row justify-content-between subscribe-padding">
+<div class="col-xxl-3 col-xl-3 col-lg-4">
+
+    <div class="footer-logo mb-35">
+        <a href="{% url 'index' %}"><img src="{% static 'assets/img/logo/logo2_footer.png' %}" alt></a>
+    </div>
+
+</div>
+
+<div class="col-xxl-5 col-xl-6 col-lg-7 col-md-9">
+<div class="subscribe-caption">
+<form action="#">
+<input type="text" name="email_sub" placeholder="Enter your email">
+<button class="subscribe-btn">Subscribe</button>
+</form>
+</div>
+    <div class="subscribe-caption" style="margin-top: 15px;">
+        <h3>Subscribe Newsletter</h3>
+        <p>Subscribe newsletter to get updates on our newest products.</p>
+    </div>
+</div>
+<div class="col-xxl-2 col-xl-2 col-lg-4">
+
+<div class="footer-social">
+<a href="https://bit.ly/sai4ull"><i class="fab fa-facebook"></i></a>
+<a href="#"><i class="fab fa-instagram"></i></a>
+<a href="#"><i class="fab fa-youtube"></i></a>
+
+</div>
+</div>
+</div>
+</div>
+</section>
+
+</div>
+
+<div class="footer-bottom-area">
+<div class="container">
+
+<div class="row">
+<div class="col-xl-12 ">
+<div class="footer-copy-right text-center">
+<p>Copyright &copy; 2023  ::  All rights reserved <a href="{% url 'index' %}"><img src="{% static 'assets/img/logo/logo2_footer.png' %}" alt></a><i class="fa fa-heart color-danger" aria-hidden="true"></i> </p>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</footer>

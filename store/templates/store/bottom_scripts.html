@@ -1,0 +1,59 @@
+{% load static %}
+<script src="{% static 'assets/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'assets/js/popper.min.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+
+<script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'assets/js/slick.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.slicknav.min.js' %}"></script>
+
+<script src="{% static 'assets/js/wow.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.magnific-popup.js' %}"></script>
+<script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'assets/js/waypoints.min.js' %}"></script>
+<script src="{% static 'assets/js/price_rangs.js' %}"></script>
+
+<script src="{% static 'assets/js/contact.js' %}"></script>
+<script src="{% static 'assets/js/jquery.form.js' %}"></script>
+<script src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'assets/js/mail-script.js' %}"></script>
+<script src="{% static 'assets/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<script src="{% static 'assets/js/plugins.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
+<script src="{% static 'assets/js/cart.js' %}"></script>
+<script src="{% static 'assets/js/back_to_top.js' %}"></script>
+
+
+<script nonce="{{ request.csp_nonce }}">
+    window.onscroll = function() {myFunction()};
+
+    var header = document.querySelector(".fixed-top");
+    var sticky = header.offsetTop;
+
+    function myFunction() {
+        if (window.pageYOffset > sticky) {
+            header.classList.add("fixed");
+        } else {
+            header.classList.remove("fixed");
+        }
+    }
+</script>
+
+
+<script nonce="{{ request.csp_nonce }}">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-23581568-13');
+</script>
+
+<script nonce="{{ request.csp_nonce }}">
+	var topBtn = document.getElementById('myBtn');
+	topBtn.addEventListener('click', function(e) {
+        topFunction();
+    });
+</script>
