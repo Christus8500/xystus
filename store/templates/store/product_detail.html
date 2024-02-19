@@ -1,0 +1,136 @@
+<!doctype html>
+{% load static %}
+{% load custom_filters %}
+<html class="no-js" lang="zxx">
+
+<!--HTML Head Links-->
+{% include 'store/head.html' %}
+<body>
+
+<!--Preloader-->
+{% include 'store/preloader.html' %}
+
+
+<!--Nav Bar-->
+{% include 'store/navbar.html' %}
+
+<main>
+
+<div style="margin-top: 5em;">
+
+</div>
+
+
+
+
+<div class="container" style="background-color: red; padding: 2em;">
+	<div class="row">
+		<div class="col-lg-4 col-md-6 col-sm-6">
+			<img width="100%" height="100%" src="{{product_detail.imageURL}}">
+		</div>
+		<div class="col-lg-4 col-md-6 col-sm-6 " style="display: flex; flex-direction: column; justify-content: center;">
+			<h3 style="color: white; text-align: left;"><strong>{{ product_detail.name }}</strong></h3><br>
+			<h5 style="color: white; text-align: left; font-size: 1.1em;"><strong>Price:</strong> ₦{{ product_detail.price|format_price }}</h5>
+			<h5 style="color: white; text-align: left; font-size: 1.1em;"><strong>Shipping Fee:</strong> ₦{{ product_detail.shipping|format_price }}</h5><br>
+			<h5 style="color: white; text-align: left; font-size: 0.9em;">{{ product_detail.description }}</h5>
+
+			<button data-product={{product_detail.id}} data-action="add" style="text-align: left; border-radius: 0.5em; height: 40px; width: 120px; padding: 0px 10px 0px 10px; background-color: white;" class="btn btn-outline-secondary add-btn update-cart"><span style="font-weight: bold; color: red;">Add To Cart</span> </button>
+
+		</div>
+	</div>
+</div>
+
+
+
+<section style="margin-bottom: 120px; margin-top: 80px;">
+    <div class="container mb-5" style="margin-top: 1.5em;">
+
+        <div class="row text-center">
+        	<strong style="font-size: 1.2em; margin-bottom: 1.5em;">Shop By Categories &#8594; <a href="{% url 'categories' %}" style="color: grey; text-decoration: underline;"> Shop Now &#8594;</a></strong>
+
+		</div>
+
+		<div class="container">
+            <div class="latest-items-active text-center">
+                {% for product in quick_products %}
+                <div class="properties pb-30">
+                    <div class="properties-card">
+                        <div class="properties-img" style="height: 180px;">
+                            <a><img src="{{product.imageURL}}" height="100%" width="100%" alt></a>
+                            <div class="socal_icon">
+                                <a style="border-radius: 0.5em;" href="#" data-product={{product.id}} data-action="add" class="update-cart"><i class="ti-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                        <div class="properties-caption properties-caption2">
+                            <h3 style="font-size: 1em; font-weight: bold;"><a>{{ product.name }}</a></h3>
+                            <div class="properties-footer">
+                                <div class="price text-dark">
+                                    <span style="font-size: 0.8em;"> ₦{{ product.price|format_price }} <del style="color: grey;">₦{{ product.original_price|format_price }}</del></span><br>
+                                    <span style="font-size: 0.8em;">Shipping: ₦{{ product.shipping|format_price }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+            </div>
+            <a class="btn" style="float: right; margin-bottom: 50px; border-radius: 0.5em;" href="{% url 'shop' %}"> Browse More &#8594;</a>
+        </div>
+
+    </div>
+</section>
+
+
+<div class="latest-items section-padding fix text-center" style="padding-top: 50px; padding-bottom: 0px; background-color: #F6F6F6;">
+
+    <div class="container">
+        <div class="row justify-content-between">
+            <h2>Explore More Products</h2><hr>
+        </div>
+    </div>
+
+    <section>
+        <div class="container mb-5">
+            <div class="row">
+                {% for latest_product in explore_products %}
+                <div class="col-lg-3 col-sm-6 mb-5 mb-xs-5">
+                    <img class="thumbnail" src="{{ latest_product.imageURL }}">
+                    <div class="box-element product">
+                        <span><strong>{{ latest_product.name }}</strong></span>
+                        <hr style="border-color: black; margin-bottom: 5px;">
+                        <a style="color: grey; font-size: 0.8em;" href="{% url 'product_detail' latest_product.id %}"> <span><strong>See Descriptions...</strong></span></a><br><br>
+                        <div class="h-100 d-flex align-items-center justify-content-center">
+                            <div style="margin-right: 0.3em;">
+                                <strong style="color: black; font-size: 0.8em"> ₦{{ latest_product.price|format_price }} <del style="color: grey"> ₦{{ latest_product.original_price|format_price }}</del></strong><br>
+                                <strong style="font-size: 0.8em;">Shipping: <span style="color: grey">₦{{ latest_product.shipping|format_price }}</span></strong>
+                            </div>
+
+                            <button data-product={{latest_product.id}} data-action="add" style="border-radius: 0.5em; height: 40px; padding: 0px 10px 0px 20px;" class="btn btn-outline-secondary add-btn update-cart"><i class="ti-shopping-cart">+</i></button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="container" style="display: flex; flex-direction: column; align-items: center;">
+                <a class="btn" style="margin-bottom: 1em; border-radius: 0.5em;" href="{% url 'shop' %}"> Browse More &#8594;</a>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+
+</main>
+
+<!--Footer-->
+{% include 'store/footer.html' %}
+
+<button id="myBtn" title="Go to top">Top</button>
+
+
+<!--Bottom Scripts-->
+{% include 'store/bottom_scripts.html' %}
+</body>
+
+</html>

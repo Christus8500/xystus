@@ -44,7 +44,7 @@
             <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6">
                 <div class="single-items mb-20">
                     <div class="items-img">
-                        <img style="height: 9em;" src="{{ product_type.imageURL }}" alt>
+                        <img style="height: 9em; width: 80%;" src="{{ product_type.imageURL }}" alt>
                     </div>
                     <div class="items-details" style="margin-left: -1.5em; line-height: 0.8em;">
                         <h4><a href="#" style="text-shadow: 0 0 2px #FF0000;">{{ product_type.name }}</a></h4>
@@ -113,9 +113,7 @@
                     <div class="box-element product">
                         <span><strong>{{ product.name }}</strong></span>
                         <hr style="border-color: black; margin-bottom: 5px;">
-                        <div class="description_box">
-                            <h5 style="font-size: 13px; color: black; line-height: 14px;"><span>{{ product.description }}</span></h5>
-                        </div>
+                        <a style="color: grey; font-size: 0.8em;" href="{% url 'product_detail' product.id %}"> <span><strong>See Descriptions...</strong></span></a><br><br>
                         <div class="h-100 d-flex align-items-center justify-content-center">
                             <div style="margin-right: 0.3em;">
                                 <strong style="color: black; font-size: 0.8em"> ₦{{ product.price|format_price }} <del style="color: grey"> ₦{{ product.original_price|format_price }}</del></strong><br>
@@ -210,11 +208,11 @@
                         </div>
                     </div>
                     <div class="properties-caption properties-caption2">
-                        <h3><a>{{ cheap.name }}</a></h3>
+                        <h3 style="font-size: 1em; font-weight: bold;"><a>{{ cheap.name }}</a></h3>
                         <div class="properties-footer">
                             <div class="price text-dark">
-                                <span> ₦{{ cheap.price|format_price }} <span> ₦{{ cheap.original_price|format_price }}</span></span><br>
-                                <span>Shipping: ₦{{ cheap.shipping|format_price }}</span>
+                                <span style="font-size: 0.8em;"> ₦{{ cheap.price|format_price }} <span> ₦{{ cheap.original_price|format_price }}</span></span><br>
+                                <span style="font-size: 0.8em;">Shipping: ₦{{ cheap.shipping|format_price }}</span>
                             </div>
                         </div>
                     </div>
@@ -250,9 +248,7 @@
                     <div class="box-element product">
                         <span><strong>{{ latest_product.name }}</strong></span>
                         <hr style="border-color: black; margin-bottom: 5px;">
-                        <div class="description_box">
-                            <h5 style="font-size: 12.3px; color: black; line-height: 14px;"><span>{{ latest_product.description }}</span></h5>
-                        </div>
+                        <a style="color: grey; font-size: 0.8em;" href="{% url 'product_detail' latest_product.id %}"> <span><strong>See Descriptions...</strong></span></a><br><br>
                         <div class="h-100 d-flex align-items-center justify-content-center">
                             <div style="margin-right: 0.3em;">
                                 <strong style="color: black; font-size: 0.8em"> ₦{{ latest_product.price|format_price }} <del style="color: grey"> ₦{{ latest_product.original_price|format_price }}</del></strong><br>

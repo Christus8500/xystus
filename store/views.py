@@ -199,6 +199,23 @@ def shop(request):
     return render(request, 'store/shop.html', context)
 
 
+def productDetail(request, product_id):
+    product_detail = Product.objects.get(id=product_id)
+    quick_products = Product.objects.all()[:8]
+
+    explore_products = Product.objects.filter(product_type=product_detail.product_type).exclude(id=product_detail.id)[:12]
+
+    data = cartData(request)
+    cartItems = data['cartItems']
+    context = {
+        'cartItems': cartItems,
+        'product_detail': product_detail,
+        'quick_products': quick_products,
+        'explore_products': explore_products,
+    }
+    return render(request, 'store/product_detail.html', context)
+
+
 def order(request):
     data = cartData(request)
     cartItems = data['cartItems']

@@ -36,7 +36,7 @@
 					<div class="box-element product">
 						<span><strong>{{ product.name }}</strong></span>
 						<hr style="border-color: black; margin-bottom: 5px;">
-						<h5 style="font-size: 13px; line-height: 90%;"><strong>{{ product.description }}</strong></h5><br>
+						<a style="color: grey; font-size: 0.8em;" href="{% url 'product_detail' product.id %}"> <span><strong>See Descriptions...</strong></span></a><br><br>
 						<div class="h-100 d-flex align-items-center justify-content-center">
 							<div style="margin-right: 0.3em;">
                                 <strong style="color: black; font-size: 0.9em"> ₦{{ product.price|format_price }} <del style="color: grey"> ₦{{ product.original_price|format_price }}</del></strong><br>
