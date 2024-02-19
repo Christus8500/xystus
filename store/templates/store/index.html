@@ -41,7 +41,7 @@
         <div class="row">
             <h2 style="margin-bottom: 20px;">Some Of Our Product Types</h2>
             {% for product_type in product_types %}
-            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6">
+            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 mobile-col">
                 <div class="single-items mb-20">
                     <div class="items-img">
                         <img style="height: 9em; width: 80%;" src="{{ product_type.imageURL }}" alt>
@@ -108,11 +108,10 @@
         <div class="container mb-5">
             <div class="row ">
                 {% for product in product_page.object_list %}
-                <div class="col-lg-3 col-sm-6 mb-5 mb-xs-5">
+                <div class="col-lg-3 col-sm-6 mb-5 mb-xs-5 mobile-col">
                     <img class="thumbnail" src="{{product.imageURL}}">
                     <div class="box-element product">
-                        <span><strong>{{ product.name }}</strong></span>
-                        <hr style="border-color: black; margin-bottom: 5px;">
+                        <span><strong>{{ product.name }}</strong></span><br>
                         <a style="color: grey; font-size: 0.8em;" href="{% url 'product_detail' product.id %}"> <span><strong>See Descriptions...</strong></span></a><br><br>
                         <div class="h-100 d-flex align-items-center justify-content-center">
                             <div style="margin-right: 0.3em;">
@@ -231,11 +230,7 @@
 
     <div class="container">
         <div class="row justify-content-between">
-            <div class="col-xl-12">
-                <div class="nav-button">
-                    <h2>Latest Arrivals</h2><hr>
-                </div>
-            </div>
+            <h2>Latest Arrivals</h2><hr>
         </div>
     </div>
 
@@ -243,11 +238,10 @@
         <div class="container mb-5">
             <div class="row">
                 {% for latest_product in latest_products %}
-                <div class="col-lg-3 col-sm-6 mb-5 mb-xs-5">
+                <div class="col-lg-3 col-sm-6 mb-5 mb-xs-5 mobile-col">
                     <img class="thumbnail" src="{{ latest_product.imageURL }}">
                     <div class="box-element product">
-                        <span><strong>{{ latest_product.name }}</strong></span>
-                        <hr style="border-color: black; margin-bottom: 5px;">
+                        <span><strong>{{ latest_product.name }}</strong></span><br>
                         <a style="color: grey; font-size: 0.8em;" href="{% url 'product_detail' latest_product.id %}"> <span><strong>See Descriptions...</strong></span></a><br><br>
                         <div class="h-100 d-flex align-items-center justify-content-center">
                             <div style="margin-right: 0.3em;">

@@ -48,10 +48,6 @@ h1,h2,h3,h4,h5,h6{
     box-shadow: 0px 3px 4px -1px grey;
 }
 
-detail-container{
-    background-color: red;
-}
-
 /* Default styles */
 .thumbnail {
     width: 100%;
@@ -83,24 +79,25 @@ detail-container{
 }
 
 /* Media query for even smaller screens */
-@media screen and (max-width: 574px) {
+@media screen and (max-width: 576px) {
     .thumbnail {
         width: 100%;
         background-color: #fff;
         height: 190px;
-        padding-right: 20%;
-        padding-left: 20%;
+        padding-right: 0%;
+        padding-left: 0%;
         padding-top: 3%;
         padding-bottom: 2%;
         -webkit-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
         -moz-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
         box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
     }
-}
 
-.description_box{
-    height: 5em;
-    width: 100%;
+    .mobile-col{
+        width: 50% !important;
+    }
+
+
 }
 
 .product{
