@@ -70,7 +70,9 @@
                         <div class="col-lg-4 col-sm-6 mb-4 mb-xs-2 mobile-col">
                             <img class="thumbnail" src="{{product.imageURL}}" alt="{{product.name}}">
                             <div class="box-element product">
-                                <span><strong>{{ product.name }}</strong></span><br>
+                                <div style="height: 70px;">
+                                    <span><strong>{{ product.name }}</strong></span>
+                                </div>
                                 <a style="color: grey; font-size: 0.8em;" href="{% url 'product_detail' product.id %}"> <span><strong>See Descriptions...</strong></span></a><br><br>
                                 <hr style="border-color: none; margin-bottom: 5px; margin-top: 5px;">
                                 <div class="h-100 d-flex align-items-center justify-content-center">
