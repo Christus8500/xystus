@@ -97,6 +97,13 @@ h1,h2,h3,h4,h5,h6{
         width: 50% !important;
     }
 
+    .spinner{
+        display: flex;
+        justify-content: center; /* Horizontally center */
+        align-items: center; /* Vertically center */
+        margin-left: -35px;
+    }
+
 }
 
 .product{
