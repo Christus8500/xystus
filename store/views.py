@@ -48,12 +48,16 @@ def index(request):
 
 
 def product_type_detail(request, pk):
+    data = cartData(request)
+    cartItems = data['cartItems']
+    
     product_type = get_object_or_404(ProductType, pk=pk)
     products = Product.objects.filter(product_type=product_type)
 
     context = {
         'product_type': product_type,
         'products': products,
+        'cartItems': cartItems,
     }
     return render(request, 'store/product_type_detail.html', context)
 
