@@ -1,0 +1,74 @@
+<!doctype html>
+{% load static %}
+{% load custom_filters %}
+<html class="no-js" lang="zxx">
+
+<!--HTML Head Links-->
+{% include 'store/head.html' %}
+<body>
+
+<!--Preloader-->
+{% include 'store/preloader.html' %}
+
+
+<!--Nav Bar-->
+{% include 'store/navbar.html' %}
+
+<main>
+
+<div style="margin-top: 5em;">
+
+</div>
+
+
+<div class="latest-items section-padding fix text-center" style="padding-top: 20px; padding-bottom: 150px;">
+
+    <div class="container">
+        <div class="row justify-content-between">
+            <h2>Products of Type: {{ product_type.name }}</h2><br><br><br><br><br>
+        </div>
+    </div>
+
+    <section>
+        <div class="container mb-5">
+            <div class="row">
+                {% for product in products %}
+                <div class="col-lg-3 col-sm-6 mb-5 mb-xs-5 mobile-col">
+                    <img class="thumbnail" src="{{ product.imageURL }}">
+                    <div class="box-element product">
+                        <div style="height: 70px;">
+                            <span><strong>{{ product.name }}</strong></span>
+                        </div>
+                        <a style="color: grey; font-size: 0.8em;" href="{% url 'product_detail' product.id %}"> <span><strong>See Descriptions...</strong></span></a><br><br>
+                        <div class="h-100 d-flex align-items-center justify-content-center">
+                            <div style="margin-right: 0.3em;">
+                                <strong style="color: black; font-size: 0.8em"> ₦{{ product.price|format_price }} <del style="color: grey"> ₦{{ product.original_price|format_price }}</del></strong><br>
+                                <strong style="font-size: 0.8em;">Shipping: <span style="color: grey">₦{{ product.shipping|format_price }}</span></strong>
+                            </div>
+
+                            <button data-product={{product.id}} data-action="add" style="border-radius: 0.5em; height: 40px; padding: 0px 10px 0px 20px;" class="btn btn-outline-secondary add-btn update-cart"><i class="ti-shopping-cart">+</i></button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+</div>
+
+
+</main>
+
+<!--Footer-->
+{% include 'store/footer.html' %}
+
+<button id="myBtn" title="Go to top">Top</button>
+
+
+<!--Bottom Scripts-->
+{% include 'store/bottom_scripts.html' %}
+</body>
+
+</html>

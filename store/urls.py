@@ -13,5 +13,5 @@ urlpatterns = [
     path('update_item/', views.update_item, name='update_item'),
     path('process_order/', views.processOrder, name='process_order'),
     path('product_detail/<str:product_id>/', views.productDetail, name='product_detail'),
-    path('clear-alert-session/', views.clear_alert_session, name='clear_alert_session'),
+    path('product_type/<str:pk>/', views.product_type_detail, name='product_type_detail'),
 ]

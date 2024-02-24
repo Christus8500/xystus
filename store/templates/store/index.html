@@ -6,23 +6,6 @@
 <!--HTML Head Links-->
 {% include 'store/head.html' %}
 
-<script nonce="{{ request.csp_nonce }}">
-    document.addEventListener('DOMContentLoaded', function () {
-        // Check if the alert should be shown
-        var showAlert = {{ show_alert|lower }};  // Convert Python boolean to JavaScript boolean
-
-        // Show the alert if necessary
-        if (showAlert) {
-            alert("Switch to desktop view for the best experience");
-        }
-
-        // Set up an event listener to clear the session variable on unload
-        window.addEventListener('beforeunload', function () {
-            // Use an asynchronous request to clear the session variable on the server side
-            fetch('/clear-alert-session/', { method: 'POST', credentials: 'same-origin' });
-        });
-    });
-</script>
 
 <body>
 
@@ -41,17 +24,17 @@
         <div class="row">
             <h2 style="margin-bottom: 20px;">Some Of Our Product Types</h2>
             {% for product_type in product_types %}
-            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 mobile-col">
-                <div class="single-items mb-20">
-                    <div class="items-img">
-                        <img style="height: 9em; width: 80%;" src="{{ product_type.imageURL }}" alt>
-                    </div>
-                    <div class="items-details" style="margin-left: -1.5em; line-height: 0.8em;">
-                        <h4><a href="#" style="text-shadow: 0 0 2px #FF0000;">{{ product_type.name }}</a></h4>
-                        <a href="{% url 'shop' %}" class="browse-btn" style="text-shadow: 0 0 3px #FF0000;"><b style="color: white;">Shop Now</b></a>
+                <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 mobile-col">
+                    <div class="single-items mb-20">
+                        <div class="items-img">
+                            <img style="height: 9em; width: 80%;" src="{{ product_type.imageURL }}" alt>
+                        </div>
+                        <div class="items-details" style="margin-left: -1.5em; line-height: 0.8em;">
+                            <h4><a href="{% url 'product_type_detail' product_type.pk %}" style="text-shadow: 0 0 2px #FF0000;">{{ product_type.name }}</a></h4>
+                            <a href="{% url 'product_type_detail' product_type.pk %}" class="browse-btn" style="text-shadow: 0 0 3px #FF0000;"><b style="color: white;">Shop Now</b></a>
+                        </div>
                     </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
         <strong style="font-size: 1.2em;">Shop By Categories &#8594; <a href="{% url 'categories' %}" style="color: grey; text-decoration: underline;"> Shop Now &#8594;</a></strong>

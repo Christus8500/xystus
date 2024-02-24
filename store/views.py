@@ -1,7 +1,8 @@
+import random
 from django.http import JsonResponse
 import json
 import datetime
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 from .models import *
 from .forms import SearchForm
@@ -18,7 +19,12 @@ def index(request):
     product_types = ProductType.objects.all()[:6]
 
     products = Product.objects.all()
-    product_page = Paginator(products, 16)
+
+    # Shuffle the products
+    products_list = list(products)
+    random.shuffle(products_list)
+
+    product_page = Paginator(products_list, 16)
     page_number = request.GET.get('page')
 
     try:
@@ -31,28 +37,25 @@ def index(request):
     cheapest = Product.objects.order_by('price')[:10]
     latest_products = Product.objects.all().order_by('-added_at')[:12]
 
-    # Check if the alert has been shown in the current session
-    show_alert = not request.session.get('alert_shown', False)
-
-    # Set the session variable to indicate that the alert has been shown for this session
-    if show_alert:
-        request.session['alert_shown'] = True
-
     context = {
         'product_page': product_page,  # Include paginated products
         'product_types': product_types,
         'cheapest': cheapest,
         'latest_products': latest_products,
         'cartItems': cartItems,
-        'show_alert': show_alert,
     }
     return render(request, 'store/index.html', context)
 
 
-def clear_alert_session(request):
-    # Clear the session variable
-    request.session.pop('alert_shown', None)
-    return JsonResponse({'status': 'success'})
+def product_type_detail(request, pk):
+    product_type = get_object_or_404(ProductType, pk=pk)
+    products = Product.objects.filter(product_type=product_type)
+
+    context = {
+        'product_type': product_type,
+        'products': products,
+    }
+    return render(request, 'store/product_type_detail.html', context)
 
 
 def categories(request):
@@ -63,9 +66,13 @@ def categories(request):
     my_filter = ProductFilter(request.GET, queryset=products)
     products = my_filter.qs
 
+    # Convert the queryset to a list and shuffle it
+    products_list = list(products)
+    random.shuffle(products_list)
+
     context = {
         'cartItems': cartItems,
-        'products': products,
+        'products': products_list,  # Use the shuffled list
         'my_filter': my_filter,
     }
     return render(request, 'store/categories.html', context)
@@ -189,10 +196,13 @@ def shop(request):
     cartItems = data['cartItems']
 
     products = Product.objects.all()
+    # Convert the queryset to a list and shuffle it
+    products_list = list(products)
+    random.shuffle(products_list)
 
     context = {
         'cartItems': cartItems,
-        'products': products,
+        'products': products_list,
         'results': results,
         'form': form,
     }
@@ -203,7 +213,11 @@ def productDetail(request, product_id):
     product_detail = Product.objects.get(id=product_id)
     quick_products = Product.objects.all()[:8]
 
-    explore_products = Product.objects.filter(product_type=product_detail.product_type).exclude(id=product_detail.id)[:12]
+    explore_products = Product.objects.filter(product_type=product_detail.product_type).exclude(id=product_detail.id)[
+                       :12]
+    # Convert the queryset to a list and shuffle it
+    products_list = list(explore_products)
+    random.shuffle(products_list)
 
     data = cartData(request)
     cartItems = data['cartItems']
@@ -211,7 +225,7 @@ def productDetail(request, product_id):
         'cartItems': cartItems,
         'product_detail': product_detail,
         'quick_products': quick_products,
-        'explore_products': explore_products,
+        'explore_products': products_list,
     }
     return render(request, 'store/product_detail.html', context)
 
