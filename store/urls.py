@@ -14,4 +14,10 @@ urlpatterns = [
     path('process_order/', views.processOrder, name='process_order'),
     path('product_detail/<str:product_id>/', views.productDetail, name='product_detail'),
     path('product_type/<str:pk>/', views.product_type_detail, name='product_type_detail'),
+    path('product', views.product, name='product'),
+    path('addProduct', views.addProduct, name='addProduct'),
+    path('updateProduct/<str:product_id>/', views.updateProduct, name='updateProduct'),
+    path('addCategory', views.addCategory, name='addCategory'),
+    path('addProductType', views.addProductType, name='addProductType'),
+
 ]

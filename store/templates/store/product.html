@@ -1,0 +1,110 @@
+<!doctype html>
+{% load static %}
+{% load custom_filters %}
+<html class="no-js" lang="zxx">
+
+<!--HTML Head Links-->
+{% include 'store/head.html' %}
+<body>
+
+<!--Preloader-->
+{% include 'store/preloader.html' %}
+
+
+<!--Nav Bar-->
+{% include 'store/navbar.html' %}
+
+<main>
+
+<div style="margin-top: 5em;">
+
+</div>
+
+
+<div class="container">
+
+	<div class="latest-items section-padding fix text-center" style="padding-top: 20px; padding-bottom: 150px;">
+
+
+		<div class="row" style="margin: 30px 0px 30px 0px;">
+
+			{% if messages %}
+				{% for message in messages %}
+					<div class="alert alert-primary alert-dismissible fade show" role="alert">
+						{{ message }}
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				{% endfor %}
+			{% endif %}
+
+			<form method="get" class="col-md-6 mobile-col" style="margin-bottom: 50px;">
+				{{ my_filter.form.as_p }}
+				<button class="btn btn-primary col-md-12" style="border-radius: 0.5em; margin-top: 2em;" type="submit">Search</button>
+			</form>
+
+			<div class="col-md-6 mobile-col" style="display: flex; flex-direction: column; justify-content: center;">
+				<a href="{% url 'addCategory' %}" style="border-radius: 0.5em;" class="btn btn-primary">Add Category</a><br><br>
+				<a href="{% url 'addProductType' %}" style="border-radius: 0.5em;" class="btn btn-primary">Add Product Type</a><br><br>
+				<a href="{% url 'addProduct' %}" style="border-radius: 0.5em;" class="btn btn-primary">Add Product</a>
+			</div>
+
+		</div>
+
+		<section>
+			<div class="container mb-5">
+
+
+				<div class="card">
+					<table class="table">
+					<thead>
+						<tr style="font-size: 80%; font-weight: bold;">
+							<th scope="col">Image</th>
+							<th scope="col">Name</th>
+							<th scope="col">Price</th>
+						</tr>
+					</thead>
+					<tbody style="font-size: 11px; font-weight: bold;">
+						{% for product in products %}
+						<tr>
+							<td><a href="{% url 'updateProduct' product.id %}"> <img src="{{ product.imageURL }}" alt="Product Image" style="max-width: 50px; max-height: 50px;"></a></td>
+							<td>{{ product.name }}</td>
+							<td>₦{{ product.price|format_price }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				</div>
+
+			</div>
+		</section>
+
+	</div>
+
+</div>
+
+
+
+
+</main>
+
+<!--Footer-->
+{% include 'store/footer.html' %}
+
+<button id="myBtn" title="Go to top">Top</button>
+
+
+<!--Bottom Scripts-->
+<script nonce="{{ request.csp_nonce }}">
+    // Automatically close alert messages after 4 seconds
+    window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove();
+        });
+    }, 4000);
+</script>
+{% include 'store/bottom_scripts.html' %}
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+{% load static %}
+{% load custom_filters %}
+<html class="no-js" lang="zxx">
+
+<!--HTML Head Links-->
+{% include 'store/head.html' %}
+<body>
+
+<!--Preloader-->
+{% include 'store/preloader.html' %}
+
+
+<!--Nav Bar-->
+{% include 'store/navbar.html' %}
+
+<main>
+
+<div style="margin-top: 5em;">
+
+</div>
+
+
+<div class="latest-items section-padding fix text-center" style="padding-top: 20px; padding-bottom: 150px;">
+
+
+
+    <section>
+        <div class="container mb-5">
+            <h3>Add Product Type</h3><br>
+
+            {% if messages %}
+				{% for message in messages %}
+					<div class="alert alert-primary alert-dismissible fade show" role="alert">
+						{{ message }}
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				{% endfor %}
+			{% endif %}
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="body">
+                    {{ form.as_p }}
+
+                    <div class="row text-center">
+                        <div class="col-sm-12 col-md-12 mt-5">
+                            <button type="submit" style="border-radius: 0.5em;" class="btn btn-primary">Submit</button>
+                            <a href="{% url 'product' %}" style="border-radius: 0.5em;" class="btn btn-primary">Back</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <hr style="border: 2px solid black">
+
+            <table class="table">
+				<thead>
+					<tr style="font-size: 85%; font-weight: bold;">
+						<th scope="col">Image</th>
+						<th scope="col">Name</th>
+					</tr>
+				</thead>
+				<tbody style="font-size: 12px; font-weight: bold;">
+					{% for product_type in product_types %}
+					<tr>
+						<td><img src="{{ product_type.imageURL }}" alt="Product Image" style="max-width: 50px; max-height: 50px;"></td>
+						<td>{{ product_type.name }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+        </div>
+    </section>
+
+</div>
+
+
+</main>
+
+<!--Footer-->
+{% include 'store/footer.html' %}
+
+<button id="myBtn" title="Go to top">Top</button>
+
+
+<!--Bottom Scripts-->
+<script nonce="{{ request.csp_nonce }}">
+    // Automatically close alert messages after 4 seconds
+    window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove();
+        });
+    }, 4000);
+</script>
+{% include 'store/bottom_scripts.html' %}
+</body>
+
+</html>

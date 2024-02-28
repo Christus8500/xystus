@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'defender',
 ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',

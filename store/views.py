@@ -1,17 +1,23 @@
 import random
+from django.contrib import messages
 from django.http import JsonResponse
 import json
 import datetime
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 from .models import *
-from .forms import SearchForm
+from .forms import *
 from .utils import cookieCart, cartData, guestOrder
-from .filters import ProductFilter
+from .filters import *
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.contrib.auth.decorators import user_passes_test
 
 
 # Create your views here.
+def is_admin(user):
+    return user.is_authenticated and user.is_staff
+
+
 def index(request):
     data = cartData(request)
     cartItems = data['cartItems']
@@ -50,7 +56,7 @@ def index(request):
 def product_type_detail(request, pk):
     data = cartData(request)
     cartItems = data['cartItems']
-    
+
     product_type = get_object_or_404(ProductType, pk=pk)
     products = Product.objects.filter(product_type=product_type)
 
@@ -234,6 +240,7 @@ def productDetail(request, product_id):
     return render(request, 'store/product_detail.html', context)
 
 
+@user_passes_test(is_admin)
 def order(request):
     data = cartData(request)
     cartItems = data['cartItems']
@@ -255,3 +262,101 @@ def contact(request):
         'cartItems': cartItems,
     }
     return render(request, 'store/contact.html', context)
+
+
+@user_passes_test(is_admin)
+def product(request):
+    data = cartData(request)
+    cartItems = data['cartItems']
+
+    products = Product.objects.all()
+    my_filter = ProductPage(request.GET, queryset=products)
+    products = my_filter.qs
+
+    context = {
+        'cartItems': cartItems,
+        'products': products,
+        'my_filter': my_filter,
+    }
+    return render(request, 'store/product.html', context)
+
+
+@user_passes_test(is_admin)
+def addProduct(request):
+    form = AddProductForm()
+    if request.method == 'POST':
+        form = AddProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Product added successfully.')
+            return redirect('product')  # Update 'home' to your home page URL name
+        else:
+            messages.error(request, 'Form submission failed. Please check the data.')
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'store/add_product.html', context)
+
+
+@user_passes_test(is_admin)
+def updateProduct(request, product_id):
+    products = get_object_or_404(Product, id=product_id)
+    form = UpdateProductForm(instance=products)
+
+    if request.method == "POST":
+        form = UpdateProductForm(request.POST, request.FILES, instance=products)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Product updated successfully.')
+            return redirect('product')
+        else:
+            messages.error(request, 'Form submission failed. Please check the data.')
+
+    context = {
+        'form': form,
+        'products': products,
+    }
+    return render(request, 'store/update_product.html', context)
+
+
+@user_passes_test(is_admin)
+def addCategory(request):
+    form = CategoryForm
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'New Category Added successfully.')
+            return redirect('product')
+        else:
+            messages.error(request, 'Form submission failed. Please check the data.')
+
+    category = Category.objects.all()
+
+    context = {
+        'form': form,
+        'category': category,
+    }
+    return render(request, 'store/add_category.html', context)
+
+
+@user_passes_test(is_admin)
+def addProductType(request):
+    form = ProductTypeForm
+    if request.method == 'POST':
+        form = ProductTypeForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'New Product Type Added successfully.')
+            return redirect('product')
+        else:
+            messages.error(request, 'Form submission failed. Please check the data.')
+
+    product_types = ProductType.objects.all()
+
+    context = {
+        'form': form,
+        'product_types': product_types,
+    }
+    return render(request, 'store/add_product_type.html', context)

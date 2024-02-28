@@ -1,0 +1,130 @@
+<!doctype html>
+{% load static %}
+{% load custom_filters %}
+<html class="no-js" lang="zxx">
+
+<!--HTML Head Links-->
+{% include 'store/head.html' %}
+<body>
+
+<!--Preloader-->
+{% include 'store/preloader.html' %}
+
+
+<!--Nav Bar-->
+{% include 'store/navbar.html' %}
+
+<main>
+
+<div style="margin-top: 5em;">
+
+</div>
+
+
+<div class="latest-items section-padding fix text-center" style="padding-top: 20px; padding-bottom: 150px;">
+
+    <section>
+        <div class="container mb-5">
+            <h3>Add New Product</h3><br><br>
+
+            {% if messages %}
+				{% for message in messages %}
+					<div class="alert alert-primary alert-dismissible fade show" role="alert">
+						{{ message }}
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				{% endfor %}
+			{% endif %}
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="container"  style="text-align: left">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label>Name:</label>
+                            {{ form.name }}
+                        </div>
+                    </div><br>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3 mobile-col">
+                            <label>Product Type:</label>
+                            {{ form.product_type }}
+                        </div>
+
+                        <div class="col-md-6 mb-3 mobile-col">
+                            <label>Category:</label>
+                            {{ form.category }}
+                        </div>
+                    </div><br>
+
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label>Product Description:</label>
+                            {{ form.description }}
+                        </div>
+                    </div><br>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3 mobile-col">
+                            <label>Discount Price:</label>
+                            {{ form.original_price }}
+                        </div>
+
+                        <div class="col-md-6 mb-3 mobile-col">
+                            <label>Price:</label>
+                            {{ form.price }}
+                        </div>
+                    </div><br>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3 mobile-col">
+                            <label>Shipping Price:</label>
+                            {{ form.shipping }}
+                        </div>
+
+                        <div class="col-md-6 mb-3 mobile-col">
+                            <label>Product Image:</label>
+                            {{ form.image }}
+                        </div>
+                    </div><br>
+
+                    <div class="row text-center">
+                        <div class="col-md-12 mt-3">
+                            <button type="submit" style="border-radius: 0.5em;" class="btn btn-primary">Submit</button>
+                            <a href="{% url 'product' %}" style="border-radius: 0.5em;" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+    </section>
+
+</div>
+
+
+</main>
+
+<!--Footer-->
+{% include 'store/footer.html' %}
+
+<button id="myBtn" title="Go to top">Top</button>
+
+
+<!--Bottom Scripts-->
+<script nonce="{{ request.csp_nonce }}">
+    // Automatically close alert messages after 4 seconds
+    window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove();
+        });
+    }, 4000);
+</script>
+{% include 'store/bottom_scripts.html' %}
+</body>
+
+</html>
