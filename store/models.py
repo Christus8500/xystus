@@ -78,7 +78,9 @@ class Product(models.Model):
 def send_product_added_email(sender, instance, created, **kwargs):
     if created:
         subject = 'New Product Added!'
-        message = render_to_string('email/new_product_added.html', {'product': instance})
+        message = f'Dear customer,\nWe are excited to inform you that a new product "{instance.name}" has been added to our collection.\n' \
+                  f'Visit our website to explore the latest additions!\nThank you for choosing us.\n\n' \
+                  f'You can check out the new product here: https://xystusshop.pythonanywhere.com'
 
         # Fetch the email addresses of all customers
         recipient_list = list(Customer.objects.values_list('email', flat=True))
