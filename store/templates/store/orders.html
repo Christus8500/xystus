@@ -60,7 +60,7 @@
 
                             <ul>
                                 {% for item in order.orderitem_set.all %}
-                                    <li style="margin-bottom: 0.8em;">{{ item.product.imageUrl }}</li>
+                                    <li><img src="{{ item.product.imageURL }}" alt="Product Image" style="max-width: 50px; max-height: 50px;"></li>
                                     <li style="margin-bottom: 0.8em;">{{ item.product.name }} >> Quantity: {{ item.quantity }} >> Total: ₦{{ item.get_total|format_price }}</li>
                                 {% endfor %}
                             </ul>
