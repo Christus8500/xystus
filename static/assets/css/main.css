@@ -106,6 +106,13 @@ h1,h2,h3,h4,h5,h6{
 
 }
 
+@media screen and (max-width: 479px){
+    .xmobile-col{
+        width: 60% !important;
+        margin-left: 20%;
+    }
+}
+
 .product{
 	border-radius: 0 0 4px 4px;
 }

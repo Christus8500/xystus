@@ -55,15 +55,15 @@
                 {% for product in quick_products %}
                 <div class="properties pb-30">
                     <div class="properties-card">
-                        <div class="properties-img" style="height: 180px;">
+                        <div class="properties-img xmobile-col" style="height: 180px;">
                             <a><img src="{{product.imageURL}}" height="100%" width="100%" alt></a>
                             <div class="socal_icon">
                                 <a style="border-radius: 0.5em;" href="#" data-product={{product.id}} data-action="add" class="update-cart"><i class="ti-shopping-cart"></i></a>
                             </div>
                         </div>
-                        <div class="properties-caption properties-caption2">
+                        <div class="properties-caption properties-caption2" style="margin-top: 5px; padding-top: 5px;">
                             <h3 style="font-size: 1em; font-weight: bold;"><a>{{ product.name }}</a></h3>
-                            <div class="properties-footer">
+                            <div class="properties-footer" style="margin-top: 5px; padding-top: 5px;">
                                 <div class="price text-dark">
                                     <span style="font-size: 0.8em;"> ₦{{ product.price|format_price }} <del style="color: grey;">₦{{ product.original_price|format_price }}</del></span><br>
                                     <span style="font-size: 0.8em;">Shipping: ₦{{ product.shipping|format_price }}</span>
