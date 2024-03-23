@@ -42,7 +42,7 @@
 </section>
 
 
-<div class="latest-items section-padding fix text-center" style="margin-top: 80px; padding-top: 50px; padding-bottom: 0px; background-color: #F6F6F6;">
+<div class="latest-items section-padding fix text-center" style="margin-top: 80px; padding-top: 50px; padding-bottom: 50px; background-color: #F6F6F6;">
 
     <div class="container">
         <div class="row">
@@ -88,14 +88,14 @@
     </div>
 
     <section id="product-section" style="margin-top: 1em;">
-        <div class="container mb-5">
+        <div class="container mb-0">
             <div class="row ">
                 {% for product in product_page.object_list %}
                 <div class="col-lg-3 col-sm-6 mb-5 mb-xs-5 mobile-col">
                     <img class="thumbnail" src="{{product.imageURL}}">
                     <div class="box-element product">
                         <div style="height: 70px;">
-                            <span><strong>{{ product.name }}</strong></span>
+                            <span style="font-size: 0.8em;"><strong>{{ product.name }}</strong></span>
                         </div>
                         <a style="color: grey; font-size: 0.8em;" href="{% url 'product_detail' product.id %}"> <span><strong>See Descriptions...</strong></span></a><br><br>
                         <div class="h-100 d-flex align-items-center justify-content-center">
@@ -110,9 +110,51 @@
                 </div>
                 {% endfor %}
             </div>
-            <a class="btn" style="margin-bottom: 1em; border-radius: 0.5em;" href="{% url 'shop' %}"> Browse More &#8594;</a>
         </div>
     </section>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <a class="btn" style="margin-bottom: 1em; border-radius: 0.5em;" href="{% url 'shop' %}"> Browse More &#8594;</a>
+            </div>
+
+            <div class="col-md-6 col-sm-6 d-flex justify-content-end">
+                <div class="container" style="display: flex; flex-direction: column; align-items: center;">
+                    <nav aria-label="Page navigation example" style="margin-bottom: 0.5em;">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                {% if product_page.has_previous %}
+                                  <a class="page-link" href="{% url 'index' %}?page={{ product_page.previous_page_number }}#product-section" aria-label="Previous">
+                                      <span aria-hidden="true"  style="color: red;">&laquo;</span>
+                                  </a>
+                                {% endif %}
+                            </li>
+                            {% for num_page in product_page.paginator.page_range %}
+                            {% if product_page.number == num_page %}
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="{% url 'index' %}?page={{ num_page }}">{{ num_page }}</a>
+                            </li>
+                            {% else %}
+                            <li class="page-item" aria-current="page">
+                                <a class="page-link" style="color: red;" href="{% url 'index' %}?page={{ num_page }}#product-section">{{ num_page }}</a>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                            <li class="page-item">
+                                {% if product_page.has_next %}
+                                  <a class="page-link" href="{% url 'index' %}?page={{ product_page.next_page_number }}#product-section" aria-label="Next">
+                                      <span aria-hidden="true" style="color: red;">&raquo;</span>
+                                  </a>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </div>
 
@@ -227,7 +269,7 @@
                     <img class="thumbnail" src="{{ latest_product.imageURL }}">
                     <div class="box-element product">
                         <div style="height: 70px;">
-                            <span><strong>{{ latest_product.name }}</strong></span>
+                            <span style="font-size: 0.8em;"><strong>{{ latest_product.name }}</strong></span>
                         </div>
 
                         <a style="color: grey; font-size: 0.8em;" href="{% url 'product_detail' latest_product.id %}"> <span><strong>See Descriptions...</strong></span></a><br><br>
